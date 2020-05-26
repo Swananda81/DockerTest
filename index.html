@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Employee Time Tracking Data Table.</h2>
+
+<p id="demo"></p>
+
+<script>
+var obj, dbParam, xmlhttp, myObj, x, txt = "";
+obj = { table: "customers", limit: 20 };
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    myObj = JSON.parse(this.responseText);
+   
+    txt += "<table border='1'>"
+    for (x in myObj) {
+    
+      txt += "<tr><td>" + myObj[x].id+ "</td><td>" + myObj[x].start+ "</td><td>" + myObj[x].end+ "</td><td>" + myObj[x].email+ "</td></tr>";
+    }
+    txt += "</table>"    
+    document.getElementById("demo").innerHTML = txt;
+  }
+};
+xmlhttp.open("POST", "http://192.168.99.100:8082/persons/all", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam);
+</script>
+
+</body>
+</html>
